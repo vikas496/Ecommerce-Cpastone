@@ -35,6 +35,14 @@ app.get("/", (req, res) => {
 //PORT
 const PORT = process.env.PORT || 8080;
 
+app.use("/", adminRouter);
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.resolve("client", "build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve("client", "build", "index.html"));
+  });
+}
+
 //run listen
 app.listen(PORT, () => {
   console.log(
